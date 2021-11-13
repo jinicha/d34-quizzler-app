@@ -18,27 +18,38 @@ class QuizUI:
 
         # create canvas
         self.canvas = Canvas(width=300, height=250, bg="white", highlightthickness=0)
-        self.question = self.canvas.create_text(150, 125, text="question goes here", width=280, font=("Arial", 20, "italic"), fill=THEME_COLOR)
+        self.question = self.canvas.create_text(
+            150,
+            125,
+            text="question goes here",
+            width=280,
+            font=("Arial", 20, "italic"),
+            fill=THEME_COLOR
+        )
         self.canvas.grid(row=1, column=0, columnspan=2, pady=50)
 
         # create two buttons
         true_img = PhotoImage(file="images/true.png")
-        false_img = PhotoImage(file="images/false.png")
         self.true_btn = Button(image=true_img, highlightthickness=0, command=self.answer_true)
-        self.false_btn = Button(image=false_img, highlightthickness=0, command=self.answer_false)
         self.true_btn.grid(row=2, column=0)
+
+        false_img = PhotoImage(file="images/false.png")
+        self.false_btn = Button(image=false_img, highlightthickness=0, command=self.answer_false)
         self.false_btn.grid(row=2, column=1)
 
-        self.next_question()
-        self.answer_true()
-        self.answer_false()
+        self.get_next_question()
 
         self.window.mainloop()
 
-    def next_question(self):
-        self.score.config(text=f'Score: {self.quiz.score}')
+    def get_next_question(self):
         self.canvas.config(bg="white")
-        self.canvas.itemconfig(self.question, text=self.quiz.next_question())
+        if self.quiz.still_has_questions():
+            self.score.config(text=f'Score: {self.quiz.score}')
+            self.canvas.itemconfig(self.question, text=self.quiz.next_question())
+        else:
+            self.canvas.config(text="Quiz completed!")
+            self.true_btn.config(state="disabled")
+            self.false_btn.config(state="disabled")
 
     def answer_true(self):
         self.give_feedback(self.quiz.check_answer("True"))
@@ -52,4 +63,4 @@ class QuizUI:
         else:
             self.canvas.config(bg="red")
 
-        self.window.after(1000, self.next_question)
+        self.window.after(1000, self.get_next_question)
