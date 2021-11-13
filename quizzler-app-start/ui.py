@@ -24,14 +24,24 @@ class QuizUI:
         # create two buttons
         true_img = PhotoImage(file="images/true.png")
         false_img = PhotoImage(file="images/false.png")
-        self.true_btn = Button(image=true_img, highlightthickness=0)
-        self.false_btn = Button(image=false_img, highlightthickness=0)
+        self.true_btn = Button(image=true_img, highlightthickness=0, command=self.answer_true)
+        self.false_btn = Button(image=false_img, highlightthickness=0, command=self.answer_false)
         self.true_btn.grid(row=2, column=0)
         self.false_btn.grid(row=2, column=1)
 
         self.next_question()
+        self.answer_true()
+        self.answer_false()
 
         self.window.mainloop()
 
     def next_question(self):
         self.canvas.itemconfig(self.question, text=self.quiz.next_question())
+
+    def answer_true(self):
+        self.quiz.check_answer("True")
+        self.next_question()
+
+    def answer_false(self):
+        self.quiz.check_answer("False")
+        self.next_question()
