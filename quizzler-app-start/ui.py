@@ -36,6 +36,7 @@ class QuizUI:
         self.window.mainloop()
 
     def next_question(self):
+        self.score.config(text=f'Score: {self.quiz.score}')
         self.canvas.config(bg="white")
         self.canvas.itemconfig(self.question, text=self.quiz.next_question())
 
