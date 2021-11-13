@@ -6,7 +6,7 @@ params = {
     "type": "boolean"
 }
 
-response = requests.get(url=f'{baseUrl}?amount={params["amount"]}&type={params["type"]}')
+response = requests.get(url=baseUrl, params=params)
 question_data = response.json()["results"]
 
 # question_data = [
