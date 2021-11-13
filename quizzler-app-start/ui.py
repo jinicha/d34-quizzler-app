@@ -36,12 +36,19 @@ class QuizUI:
         self.window.mainloop()
 
     def next_question(self):
+        self.canvas.config(bg="white")
         self.canvas.itemconfig(self.question, text=self.quiz.next_question())
 
     def answer_true(self):
-        self.quiz.check_answer("True")
-        self.next_question()
+        self.give_feedback(self.quiz.check_answer("True"))
 
     def answer_false(self):
-        self.quiz.check_answer("False")
-        self.next_question()
+        self.give_feedback(self.quiz.check_answer("False"))
+
+    def give_feedback(self, answer):
+        if answer:
+            self.canvas.config(bg="green")
+        else:
+            self.canvas.config(bg="red")
+
+        self.window.after(1000, self.next_question)
