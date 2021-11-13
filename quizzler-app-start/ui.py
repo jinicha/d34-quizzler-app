@@ -47,7 +47,7 @@ class QuizUI:
             self.score.config(text=f'Score: {self.quiz.score}')
             self.canvas.itemconfig(self.question, text=self.quiz.next_question())
         else:
-            self.canvas.config(text="Quiz completed!")
+            self.canvas.itemconfig(self.question, text="Quiz completed!")
             self.true_btn.config(state="disabled")
             self.false_btn.config(state="disabled")
 
